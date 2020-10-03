@@ -15,7 +15,7 @@ app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = False
 boggle_game = Boggle()
 
 
-@app.route("/")
+@app.route("/", methods=["GET","POST"])
 def play_game():
     if request.method == 'GET':
         """return the information for <user_id>"""
@@ -25,12 +25,15 @@ def play_game():
             board = boggle_game.make_board()
             session["board"]= board
             return render_template("home.html", board=board)
+    if request.method == 'POST':
+        word = request.form['word']
+        print(word)
+        return render_template("home.html", board = session["board"])
     
-@app.route("/wordcheck")
-def word_check():
-    word = request.args.get("word")
-    print(word)
-    
+# @app.route("/wordcheck")
+# def word_check():
+#     word = request.args.get("word")
+#     return redirect("/")
 
 
     
