@@ -21,7 +21,7 @@ def show_game():
     session["board"]= board
     return render_template("home.html", board=board)
 
-@app.route("guess/<word>")
+@app.route("guess/<word>", method=["POST"])
 def handle_submit(word):
 
 

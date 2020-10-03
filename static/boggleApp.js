@@ -1,22 +1,27 @@
 let guessForm = $("#guess-form")
 let guessFormBtn = $("#guess-form-btn")
+let guessWord = $("#guess")
+
 
 
 async function submitWord(word) {
-    let res = await axios.get(`/${word}`)
-    cluearray.map(obj=>{       
-        let{question,answer,value, showing} = obj;
-        showing = null;
-        clues.push({question,answer, value, showing})
-    })
-    let catObj = {title, clues};
-    categories.push(catObj);
-    return catObj
+    let res = await axios.post(`guess/${word}`)
+ 
+    return res
 }
+
 function getWord(){
-
+    if (guessWord.val()){
+        return guessWord.val()}
+    else{
+        alert("please guess a word!")
+    }
 }
 
-guessFormBtn.onclick(function(){
-    
+guessFormBtn.onclick(async function(e){
+    e.preventDefault()
+    let word = getWord()
+    await submitWord(word)
+
+
 })
