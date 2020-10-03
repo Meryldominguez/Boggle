@@ -27,8 +27,10 @@ def play_game():
             return render_template("home.html", board=board)
     
 @app.route("/wordcheck")
-def word_check(word):
+def word_check():
     word = request.args.get("word")
+    print(word)
+    
 
 
     

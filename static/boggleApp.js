@@ -17,6 +17,7 @@ let guessWord = $("#guess")
 guessFormBtn.on("submit", async function(e){
     e.preventDefault()
     let word = handleWord()
+    if (word){}
     $.ajax({
       type: 'get',
       url: `/wordcheck`,
