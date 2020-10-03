@@ -4,24 +4,22 @@ let guessWord = $("#guess")
 
 
 
-async function submitWord(word) {
-    let res = await axios.post(`guess/${word}`)
+// async function submitWord(word) {
+//     let res = await axios.post(`guess/${word}`)
  
-    return res
-}
+//     return res.data.message
+// }
 
-function getWord(){
-    if (guessWord.val()){
-        return guessWord.val()}
-    else{
-        alert("please guess a word!")
-    }
-}
 
-guessFormBtn.onclick(async function(e){
+
+// https://stackoverflow.com/questions/44644290/how-to-properly-submit-form-to-flask-with-ajax
+
+guessFormBtn.on("submit", async function(e){
     e.preventDefault()
-    let word = getWord()
-    await submitWord(word)
-
-
+    let word = handleWord()
+    $.ajax({
+      type: 'get',
+      url: `/wordcheck`,
+      data: word
+      });
 })

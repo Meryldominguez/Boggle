@@ -1,7 +1,7 @@
 from flask import Flask, request, render_template, redirect, flash, session
 from flask_debugtoolbar import DebugToolbarExtension
 from boggle import Boggle
-import boggleApp.js
+
 
 app = Flask(__name__)
 
@@ -16,12 +16,21 @@ boggle_game = Boggle()
 
 
 @app.route("/")
-def show_game():
-    board = boggle_game.make_board()
-    session["board"]= board
-    return render_template("home.html", board=board)
+def play_game():
+    if request.method == 'GET':
+        """return the information for <user_id>"""
+        if session["board"]:
+            return render_template("home.html", board=session["board"])
+        else:
+            board = boggle_game.make_board()
+            session["board"]= board
+            return render_template("home.html", board=board)
+    
+@app.route("/wordcheck")
+def word_check(word):
+    word = request.args.get("word")
 
-@app.route("guess/<word>", method=["POST"])
-def handle_submit(word):
+
+    
 
 

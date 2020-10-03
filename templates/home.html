@@ -4,8 +4,7 @@
 
 {% block content %}
 
-<form action="guess
-/{{word}}" id="guess-form" method="POST">
+<form action="/{{word}}" id="guess-form" method="POST">
     <label for="guess">Found a word?</label>
     <input type="text" id="guess" name="word" placeholder="my word">
     <button id="guess-form-btn">Submit</button>
