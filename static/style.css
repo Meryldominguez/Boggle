@@ -1,0 +1,23 @@
+.row{
+    display: flex;
+}
+#board-div{
+    position: absolute;
+
+}
+#game-container{
+    display: flex;
+    padding: 10%;
+    justify-content: center;
+}
+
+.letter {
+    width: 35px;
+    height: 35px;
+
+    text-align: center;
+    margin: 5px;
+    font-size: 30px;
+    border: 1px black solid;
+
+}
