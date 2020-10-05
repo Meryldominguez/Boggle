@@ -19,12 +19,9 @@ good_words=[]
 @app.route("/", methods=["GET"])
 def play_game():
     if request.method == 'GET':
-<<<<<<< Updated upstream
-=======
             session['words'] = []
             session["score"] = 0
             boggle_game.found_words.clear()
->>>>>>> Stashed changes
             board = boggle_game.make_board()
             session["board"]= board
             return render_template("home.html", board=board)
@@ -35,13 +32,9 @@ def check_word():
     word = post['word']
     board= session["board"]
     validity = boggle_game.check_valid_word(board,word)
-<<<<<<< Updated upstream
-    print(validity)
-=======
     if validity == "ok":
         boggle_game.found_words.add(word)
         session["score"] =+ len(word)
->>>>>>> Stashed changes
     return validity
     
 # @app.route("/wordcheck")
