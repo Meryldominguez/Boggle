@@ -36,7 +36,6 @@ def check_word():
     word = post['word']
     board= session["board"]
     validity = boggle_game.check_valid_word(board,word)
-    print(validity)
     return validity
     
 # @app.route("/wordcheck")
