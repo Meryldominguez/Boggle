@@ -16,19 +16,19 @@ boggle_game = Boggle()
 good_words=[]
 
 
-@app.route("/", methods=["GET","POST"])
+@app.route("/", methods=["GET"])
 def play_game():
     if request.method == 'GET':
             board = boggle_game.make_board()
             session["board"]= board
             return render_template("home.html", board=board)
-    if request.method == 'POST':
-        word = request.form['word']
-        board= session["board"]
-        valid = boggle_game.check_valid_word(board,word)
-        if valid == "ok":
-            good_words.append(word)
-            return render_template("home.html", words=good_words, board=board)
+    # if request.method == 'POST':
+    #     word = request.form['word']
+    #     board= session["board"]
+    #     valid = boggle_game.check_valid_word(board,word)
+    #     if valid == "ok":
+    #         good_words.append(word)
+    #         return render_template("home.html", words=good_words, board=board)
 
 @app.route("/check-word", methods=["POST"])
 def check_word():
