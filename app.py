@@ -25,11 +25,12 @@ def play_game():
 
 @app.route("/check-word", methods=["POST"])
 def check_word():
-    word = request.args['word']
+    post = request.get_json()
+    word = post['word']
     board= session["board"]
     validity = boggle_game.check_valid_word(board,word)
-    
-    return jsonify({'result': validity})
+    print(validity)
+    return validity
     
 # @app.route("/wordcheck")
 # def word_check():
