@@ -11,6 +11,7 @@ function getWord(){
     return word.trim()
 }
 
+
 // https://stackoverflow.com/questions/44644290/how-to-properly-submit-form-to-flask-with-ajax
 
 guessForm.on("submit", async function(e){
@@ -22,7 +23,11 @@ guessForm.on("submit", async function(e){
 })
 
 async function checkWords(){
-    let word = handleWord()
+    let word = getWord()
+    if (word == false){
+        word = {'data':false}
+        return responseMsg(word)
+    }else{
     const resp = await axios.post("/check-word",{ word: word });
     return resp
 }

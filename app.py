@@ -13,7 +13,6 @@ app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = False
 
 
 boggle_game = Boggle()
-good_words=[]
 
 
 @app.route("/", methods=["GET"])
@@ -25,6 +24,14 @@ def play_game():
             board = boggle_game.make_board()
             session["board"]= board
             return render_template("home.html", board=board)
+            
+    # if request.method == 'POST':
+    #     word = request.form['word']
+    #     board= session["board"]
+    #     valid = boggle_game.check_valid_word(board,word)
+    #     if valid == "ok":
+    #         good_words.append(word)
+    #         return render_template("home.html", words=good_words, board=board)
 
 @app.route("/check-word", methods=["POST"])
 def check_word():
@@ -37,10 +44,11 @@ def check_word():
         session["score"] =+ len(word)
     return validity
     
-# @app.route("/wordcheck")
-# def word_check():
-#     word = request.args.get("word")
-#     return redirect("/")
+@app.route("/wordlist")
+def word_list():
+    words = list(boggle_game.found_words)
+    session['words'] = list(boggle_game.found_words)
+    return jsonify(words)
 
 @app.route("/score")
 def scoring():

@@ -9,6 +9,8 @@ class Boggle():
     def __init__(self):
 
         self.words = self.read_dict("words.txt")
+        self.found_words = set()
+ 
 
     def read_dict(self, dict_path):
         """Read and return all words in dictionary."""
@@ -35,8 +37,11 @@ class Boggle():
         word_exists = word in self.words
         valid_word = self.find(board, word.upper())
 
-        if word_exists and valid_word:
+        if word_exists and valid_word and not word in self.found_words:
+            self.found_words.add(word)
             result = "ok"
+        elif word_exists and valid_word and word in self.found_words:
+            result = "repeat"
         elif word_exists and not valid_word:
             result = "not-on-board"
         else:

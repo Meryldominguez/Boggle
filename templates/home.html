@@ -4,11 +4,12 @@
 
 {% block content %}
 
-<form id="guess-form" method="POST" action="/check-word">
+<form id="guess-form" method="POST">
     <label for="guess">Found a word?</label>
     <input type="text" id="guess" name="word" placeholder="my word">
     <button id="guess-form-btn">Submit</button>
 </form>
+<div id="flash"><span></span></div>
 <div id="game-container">
 <div id="board-div">
     {% for line in board %}
@@ -28,6 +29,7 @@
     </div>
     <ul id="word-list">
 
+    </ul>
 </div>
 
 {% endblock %}
