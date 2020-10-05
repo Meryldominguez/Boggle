@@ -19,7 +19,6 @@ boggle_game = Boggle()
 def play_game():
     if request.method == 'GET':
             session['words'] = []
-            session["score"] = 0
             boggle_game.found_words.clear()
             board = boggle_game.make_board()
             session["board"]= board
@@ -41,7 +40,7 @@ def check_word():
     validity = boggle_game.check_valid_word(board,word)
     if validity == "ok":
         boggle_game.found_words.add(word)
-        session["score"] =+ len(word)
+        boggle_game.score = boggle_game.score + len(word)
     return validity
     
 @app.route("/wordlist")
@@ -52,7 +51,7 @@ def word_list():
 
 @app.route("/score")
 def scoring():
-    return jsonify(session['score'])
+    return jsonify(boggle_game.score)
 
 
     

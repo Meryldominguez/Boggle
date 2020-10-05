@@ -10,6 +10,7 @@ class Boggle():
 
         self.words = self.read_dict("words.txt")
         self.found_words = set()
+        self.score = 0
  
 
     def read_dict(self, dict_path):

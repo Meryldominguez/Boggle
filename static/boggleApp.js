@@ -14,7 +14,7 @@ function getWord(){
 
 // https://stackoverflow.com/questions/44644290/how-to-properly-submit-form-to-flask-with-ajax
 
-guessForm.on("submit", async function(e){
+$guessForm.on("submit", async function(e){
     e.preventDefault()
     let check = await checkWords()
     $guessWord.val("")
@@ -30,6 +30,7 @@ async function checkWords(){
     }else{
     const resp = await axios.post("/check-word",{ word: word });
     return resp
+    }
 }
 
 function responseMsg(resp){
@@ -58,7 +59,7 @@ function responseMsg(resp){
         .appendTo($flashDiv)
         .addClass("error")
     }
-    setTimeout(()=>{flashDiv.empty()},1500)
+    setTimeout(()=>{$flashDiv.empty()},1500)
 }
 async function handleResponse(resp){
     let word = JSON.parse(resp.config.data)
@@ -73,7 +74,7 @@ async function getWordList(){
     return resp.data
 }
 function renderWordList(list){
-    wordList.empty()
+    $wordList.empty()
     for (word of list){
         $(`<li>${word}</li>`)
             .appendTo($wordList)
@@ -85,5 +86,5 @@ async function getScore(){
     return resp.data
 }
 function renderScore(val){ 
-    $scoreDiv.text(`<h2>${val}</h2>`)
+    $scoreDiv.html(`<h2>${val}</h2>`)
 }
