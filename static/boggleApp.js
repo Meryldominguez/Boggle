@@ -28,7 +28,7 @@ async function checkWords(){
         return responseMsg(word)
     }else{
     const resp = await axios.post("/check-word",{ word: word });
-    console.log(resp)
+    
     return resp
     }
 }
@@ -72,7 +72,7 @@ async function getWordList(){
     return resp.data
 }
 function renderWordList(list){
-    list = list.split("-")
+    wordList.empty()
     for (word of list){
         $(`<li>${word}</li>`)
             .appendTo(wordList)

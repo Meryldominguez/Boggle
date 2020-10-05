@@ -1,4 +1,4 @@
-from flask import Flask, request, render_template, redirect, flash, session
+from flask import Flask, request, render_template, redirect, flash, session, jsonify
 from flask_debugtoolbar import DebugToolbarExtension
 from boggle import Boggle
 
@@ -15,10 +15,11 @@ app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = False
 boggle_game = Boggle()
 
 
-
 @app.route("/", methods=["GET"])
 def play_game():
     if request.method == 'GET':
+            session['words'] = []
+            boggle_game.found_words.clear()
             board = boggle_game.make_board()
             session["board"]= board
             return render_template("home.html", board=board)
@@ -43,10 +44,9 @@ def check_word():
     
 @app.route("/wordlist")
 def word_list():
-    words = boggle_game.found_words
-    session['words'] = words
-    whole = "-".join(words)
-    return whole
+    words = list(boggle_game.found_words)
+    session['words'] = list(boggle_game.found_words)
+    return jsonify(words)
 
 
     
