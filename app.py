@@ -30,6 +30,14 @@ def play_game():
             good_words.append(word)
             return render_template("home.html", words=good_words, board=board)
 
+@app.route("/check-word", methods=["POST"])
+def check_word():
+    post = request.get_json()
+    word = post['word']
+    board= session["board"]
+    validity = boggle_game.check_valid_word(board,word)
+    print(validity)
+    return validity
     
 # @app.route("/wordcheck")
 # def word_check():
