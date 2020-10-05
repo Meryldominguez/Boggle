@@ -37,10 +37,10 @@ class Boggle():
         word_exists = word in self.words
         valid_word = self.find(board, word.upper())
 
-        if word_exists and valid_word and not valid_word in self.found_words:
+        if word_exists and valid_word and not word in self.found_words:
             self.found_words.add(valid_word)
             result = "ok"
-        elif word_exists and valid_word and valid_word in self.found_words:
+        elif word_exists and valid_word and word in self.found_words:
             result = "repeat"
         elif word_exists and not valid_word:
             result = "not-on-board"

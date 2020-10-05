@@ -51,6 +51,6 @@ function responseMsg(resp){
 }
 function handleResponse(resp){
     word = resp.config.data
-    console.log(word[word])
+    console.log(JSON.parse(word))
 
 }

@@ -13,7 +13,7 @@ app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = False
 
 
 boggle_game = Boggle()
-good_words=[]
+
 
 
 @app.route("/", methods=["GET"])
@@ -36,6 +36,8 @@ def check_word():
     word = post['word']
     board= session["board"]
     validity = boggle_game.check_valid_word(board,word)
+    if validity == "ok":
+        boggle_game.found_words.add(word)
     return validity
     
 # @app.route("/wordcheck")
