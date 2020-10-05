@@ -22,6 +22,7 @@ def play_game():
             board = boggle_game.make_board()
             session["board"]= board
             return render_template("home.html", board=board)
+            
     # if request.method == 'POST':
     #     word = request.form['word']
     #     board= session["board"]
@@ -40,10 +41,12 @@ def check_word():
         boggle_game.found_words.add(word)
     return validity
     
-# @app.route("/wordcheck")
-# def word_check():
-#     word = request.args.get("word")
-#     return redirect("/")
+@app.route("/wordlist")
+def word_list():
+    words = boggle_game.found_words
+    session['words'] = words
+    whole = "-".join(words)
+    return whole
 
 
     
