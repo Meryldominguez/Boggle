@@ -3,7 +3,8 @@
 {% block header %} <h1>Boggle time! Played {{plays}} times. </h1> 
 <h2>High score : {{high_score}}</h2>
 <div>
-    <h2>Current score :<span id="score"> 0</span></h2>
+    <h2>Current score :<span id="score"> {{score}}</span></h2>
+    <h3>Time left: <span id="time">60 seconds</span></h3>
     
 </div>
 {% endblock %}

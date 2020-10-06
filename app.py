@@ -17,6 +17,8 @@ boggle_game = Boggle()
 
 @app.route("/", methods=["GET"])
 def play_game():
+    """initialize game"""
+    boggle_game.score = 0
     if not session.get('plays'):
         session['plays'] = 1
     elif session.get('plays'):
@@ -26,10 +28,11 @@ def play_game():
     boggle_game.found_words.clear()
     board = boggle_game.make_board()
     session["board"]= board
-    return render_template("home.html", board=board, plays = session['plays'], high_score=session['high_score'])
+    return render_template("home.html", board=board, plays = session['plays'], high_score=session['high_score'], score= boggle_game.score)
 
 @app.route("/check-word", methods=["POST"])
 def check_word():
+    """recieve word from UI, check validity"""
     post = request.get_json()
     word = post['word']
     board= session["board"]
@@ -39,11 +42,11 @@ def check_word():
         boggle_game.score = boggle_game.score + len(word)
     return validity
     
-@app.route("/wordlist")
-def word_list():
-    words = list(boggle_game.found_words)
-    session['words'] = list(boggle_game.found_words)
-    return jsonify(words)
+# @app.route("/wordlist")
+# def word_list():
+#     words = list(boggle_game.found_words)
+#     session['words'] = list(boggle_game.found_words)
+#     return jsonify(words)
 
 @app.route("/score",methods=["GET","POST"])
 def scoring():

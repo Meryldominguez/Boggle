@@ -5,36 +5,12 @@ let $flashDiv = $("#flash")
 let $wordDiv = $("#word-div")
 let $wordList = $("#word-list")
 let $scoreDiv = $("#score")
-// $(async function(){
-   
-const game = new Boggle(1)
-//game.timer()
-
-async handleResponse(resp){
-    let word = JSON.parse(resp.config.data)
-    console.log(word.word)
-    let list = await game.getWordList()
-    game.renderWordList(list)
-    let score = await game.getScore()
-    game.renderScore(score)
-    await game.updateHighScore()
-}
-
-let submitForm = $guessForm.on("submit", async function(e){
-    e.preventDefault()
-    let check = await game.checkWords()
-    $guessWord.val("")
-    responseMsg(check)
-    if (check.data === "ok"){
-        await handleResponse(check)
-    }
-})
-
-// })
+let $timer = $("#time")
 
 class Boggle{
     constructor(minutes){
         this.time = minutes*60000
+        this.list=[]
     }
     getWord(){
         let word = $guessWord.val()
@@ -79,20 +55,20 @@ class Boggle{
         setTimeout(()=>{$flashDiv.empty()},1500)
     }
 
-    async getWordList(){
-    resp = await axios.get("/wordlist")
-    return resp.data
-    }
+    // async getWordList(){
+    // let resp = await axios.get("/wordlist")
+    // return resp.data
+    // }
     renderWordList(list){
     $wordList.empty()
-    for (word of list){
+    for (let word of list){
         $(`<li>${word}</li>`)
             .appendTo($wordList)
     }
     return list
     }
     async getScore(){
-        resp = await axios.get("/score")
+        let resp = await axios.get("/score")
         return resp.data
     }
     renderScore(val){ 
@@ -104,10 +80,11 @@ class Boggle{
         const resp = await axios.post("/score",{ score : finalScore });
     }
     async handleResponse(resp){
-        let word = JSON.parse(resp.config.data)
-        console.log(word.word)
-        let list = await this.getWordList()
-        this.renderWordList(list)
+        let word = JSON.parse(resp.config.data).word
+        
+
+        this.list.push(word)
+        this.renderWordList(this.list)
         let score = await this.getScore()
         this.renderScore(score)
         await this.updateHighScore()
@@ -115,25 +92,41 @@ class Boggle{
     timer(){
         let timer = setInterval(()=>{
             this.time = this.time - 1000
-        },1000)
-        if (this.time === 0){
+            $timer.text(`${(this.time)/1000} seconds`)
+            if (this.time === 0){
             clearInterval(timer)
             this.endGame()
         }
-        }
+        },1000)}
+        
     endGame(){
-        submitForm.off()
-        endGameMessage()
+        $guessForm.empty()
+        this.endGameMessage()
     }
     endGameMessage(){
         $("<h2>Good Game!!</h2>")
             .appendTo($flashDiv)
             .addClass("success")
-        $("<button onclick='window.location.href='/'> Play again?</button>")
-            .on("click",async (e)=>{
-                e.preventDefault()
-            })
+        $(`<button>Play again?</button>`)
             .appendTo($flashDiv)
+            .on('click',()=>{
+            window.location.reload(true)})
             .addClass("success")
     }
 }
+
+
+$(async function(){
+    const game = new Boggle(1)
+    game.timer()
+    $guessForm.on("submit", async function(e){
+        e.preventDefault()
+        let check = await game.checkWords()
+        $guessWord.val("")
+        game.responseMsg(check)
+        if (check.data === "ok"){
+            await game.handleResponse(check)
+        }
+    })
+    
+    })
