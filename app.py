@@ -11,26 +11,22 @@ debug = DebugToolbarExtension(app)
 
 app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = False
 
+ 
 
 boggle_game = Boggle()
 
-
 @app.route("/", methods=["GET"])
 def play_game():
-    if request.method == 'GET':
-            session['words'] = []
-            boggle_game.found_words.clear()
-            board = boggle_game.make_board()
-            session["board"]= board
-            return render_template("home.html", board=board)
-            
-    # if request.method == 'POST':
-    #     word = request.form['word']
-    #     board= session["board"]
-    #     valid = boggle_game.check_valid_word(board,word)
-    #     if valid == "ok":
-    #         good_words.append(word)
-    #         return render_template("home.html", words=good_words, board=board)
+    if not session.get('plays'):
+        session['plays'] = 1
+    elif session.get('plays'):
+        session['plays']= session['plays']+1
+    if not session.get('high_score'):
+        session['high_score']= 0
+    boggle_game.found_words.clear()
+    board = boggle_game.make_board()
+    session["board"]= board
+    return render_template("home.html", board=board, plays = session['plays'], high_score=session['high_score'])
 
 @app.route("/check-word", methods=["POST"])
 def check_word():
@@ -49,9 +45,19 @@ def word_list():
     session['words'] = list(boggle_game.found_words)
     return jsonify(words)
 
-@app.route("/score")
+@app.route("/score",methods=["GET","POST"])
 def scoring():
-    return jsonify(boggle_game.score)
+    if request.method == 'POST':
+        post = request.get_json()
+        print(post)
+        curr_score = int(post["score"])
+        high_score = session["high_score"]
+        if curr_score> high_score:
+            session['high_score'] = curr_score
+        return post
+        
+    else:
+        return jsonify(boggle_game.score)
 
 
     

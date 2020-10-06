@@ -1,6 +1,12 @@
 {% extends 'base.html' %}
 {% block title %}BOGGLE{% endblock %}
-{% block header %} <h1>Boggle time!</h1> {% endblock %}
+{% block header %} <h1>Boggle time! Played {{plays}} times. </h1> 
+<h2>High score : {{high_score}}</h2>
+<div>
+    <h2>Current score :<span id="score"> 0</span></h2>
+    
+</div>
+{% endblock %}
 
 {% block content %}
 
@@ -9,7 +15,7 @@
     <input type="text" id="guess" name="word" placeholder="my word">
     <button id="guess-form-btn">Submit</button>
 </form>
-<div id="flash"><span></span></div>
+<div id="flash"></div>
 <div id="game-container">
 <div id="board-div">
     {% for line in board %}
@@ -24,9 +30,7 @@
 </div>
 </div>
 <div id="info">
-    <div id="score">
-        <h2>0</h2>
-    </div>
+    
     <ul id="word-list">
 
     </ul>
