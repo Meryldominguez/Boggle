@@ -42,12 +42,6 @@ def check_word():
         boggle_game.score = boggle_game.score + len(word)
     return validity
     
-# @app.route("/wordlist")
-# def word_list():
-#     words = list(boggle_game.found_words)
-#     session['words'] = list(boggle_game.found_words)
-#     return jsonify(words)
-
 @app.route("/score",methods=["GET","POST"])
 def scoring():
     if request.method == 'POST':
