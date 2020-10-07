@@ -21,7 +21,7 @@ def play_game():
     board = boggle_game.make_board()
     boggle_game.score = 0
     session.get('plays',0)
-    session['plays'] =+1
+    session['plays'] = session['plays'] + 1
     session.get('high_score',0)
     
     boggle_game.found_words.clear()
