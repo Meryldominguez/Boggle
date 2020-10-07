@@ -22,7 +22,7 @@ class Boggle{
             word = {'data':false}
             return this.responseMsg(word)
         }else{
-        const resp = await axios.post("/check-word",{ word: word });
+        const resp = await axios.post("/check-word",{word: word});
         return resp
         }
     }
