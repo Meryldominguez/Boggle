@@ -34,8 +34,10 @@ def play_game():
 def check_word():
     """recieve word from UI, check validity"""
     post = request.get_json()
+    print(post)
     word = post['word']
     board= session["board"]
+    
     validity = boggle_game.check_valid_word(board,word)
     if validity == "ok":
         boggle_game.found_words.add(word)
@@ -46,7 +48,6 @@ def check_word():
 def scoring():
     if request.method == 'POST':
         post = request.get_json()
-        print(post)
         curr_score = int(post["score"])
         high_score = session["high_score"]
         if curr_score> high_score:
